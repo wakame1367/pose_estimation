@@ -37,3 +37,5 @@ left_keypoints_indexes:
 - 12
 - 14
 - 16
+
+output_stride: 16
