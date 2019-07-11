@@ -2,6 +2,11 @@ import json
 
 
 def get_keypoints(keypoint_path):
+    """
+
+    :param keypoint_path: pathlib.Path or str
+    :return: dict
+    """
     with open(keypoint_path, "r") as f:
         keypoints = json.load(f)
 
@@ -12,7 +17,7 @@ def get_keypoints(keypoint_path):
     # annotation
     for annotation in keypoints["annotations"]:
         image_id = annotation["image_id"]
-        if image_id in image_info:
+        if image_info.get(image_id):
             image_info[image_id].append(annotation["keypoints"])
 
     return image_info
