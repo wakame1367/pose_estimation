@@ -1,11 +1,16 @@
+from pathlib import Path
+
 import tensorflow as tf
 from tensorflow.python.keras.applications.mobilenet import MobileNet
 from tensorflow.python.keras.layers import Conv2D, Lambda
 from tensorflow.python.keras.models import Model
 
-from utils import keypoints2index
+from utils import Config
 
-kp2index = keypoints2index()
+config_path = Path("config.yaml")
+config = Config(path=config_path)
+kp2index = config.keypoints2index()
+edges = config.edges()
 
 
 def posenet(input_shape=(224, 224, 3), base_model_name="mobilenet"):
@@ -24,8 +29,8 @@ def posenet(input_shape=(224, 224, 3), base_model_name="mobilenet"):
 
     _kp_maps = Conv2D(len(kp2index), kernel_size=(1, 1), activation="sigmoid", name="heatmap")(new_model.output)
     _short_offsets = Conv2D(2 * len(kp2index), kernel_size=(1, 1), name="short_offset")(new_model.output)
-    _mid_fwd_offsets = Conv2D(2 * len(kp2index), kernel_size=(1, 1), name="mid_fwd_offset")(new_model.output)
-    _mid_bwd_offsets = Conv2D(2 * len(kp2index), kernel_size=(1, 1), name="mid_bwd_offset")(new_model.output)
+    _mid_fwd_offsets = Conv2D(2 * len(edges), kernel_size=(1, 1), name="mid_fwd_offset")(new_model.output)
+    _mid_bwd_offsets = Conv2D(2 * len(edges), kernel_size=(1, 1), name="mid_bwd_offset")(new_model.output)
     _segmentation_mask = Conv2D(1, kernel_size=(1, 1), activation="sigmoid", name="segmentation")(new_model.output)
     _long_offsets = Conv2D(2 * len(kp2index), kernel_size=(1, 1), name="long_offset")(new_model.output)
 
