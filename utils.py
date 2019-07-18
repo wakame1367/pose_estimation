@@ -1,28 +1,33 @@
 import yaml
 
 
-def keypoints2index():
-    """
+class Config:
+    def __init__(self, path):
+        with open(path, "r") as f:
+            configs = yaml.load(f, Loader=yaml.FullLoader)
+        self.configs = configs
 
-    :return:
-    """
-    with open("config.yaml") as f:
-        configs = yaml.load(f, Loader=yaml.FullLoader)
-    keypoints = configs["keypoints"]
-    return dict(zip(range(len(keypoints)), keypoints))
+    def keypoints2index(self):
+        """
 
+        :return:
+        """
+        keypoints = self.configs["keypoints"]
+        return dict(zip(range(len(keypoints)), keypoints))
 
-def right_and_left_parts_indexes(ky2index):
-    """
+    def edges(self):
+        return self.configs["edges"]
 
-    :param ky2index: dict
-    :return: list, list
-    """
-    right_indexes = []
-    left_indexes = []
-    for part_idx, part_name in ky2index.items():
-        if part_name.startswith("R"):
-            right_indexes.append(part_idx)
-        elif part_name.startswith("L"):
-            left_indexes.append(part_idx)
-    return right_indexes, left_indexes
+    def right_and_left_parts_indexes(self):
+        """
+
+        :return: list, list
+        """
+        right_indexes = []
+        left_indexes = []
+        for part_idx, part_name in self.keypoints2index().items():
+            if part_name.startswith("R"):
+                right_indexes.append(part_idx)
+            elif part_name.startswith("L"):
+                left_indexes.append(part_idx)
+        return right_indexes, left_indexes
