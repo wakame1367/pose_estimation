@@ -19,3 +19,22 @@ keypoints:
   - "Lear"
 
 output_stride: 16
+
+# https://stackoverflow.com/questions/39553008/how-to-read-a-python-tuple-using-pyyaml
+edges:
+  - !!python/tuple [0, 1]
+  - !!python/tuple [1, 3]
+  - !!python/tuple [0, 2]
+  - !!python/tuple [2, 4]
+  - !!python/tuple [0, 5]
+  - !!python/tuple [5, 7]
+  - !!python/tuple [7, 9]
+  - !!python/tuple [5, 11]
+  - !!python/tuple [11, 13]
+  - !!python/tuple [13, 15]
+  - !!python/tuple [0, 6]
+  - !!python/tuple [6, 8]
+  - !!python/tuple [8, 10]
+  - !!python/tuple [6, 12]
+  - !!python/tuple [12, 14]
+  - !!python/tuple [14, 16]
