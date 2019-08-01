@@ -21,12 +21,13 @@ def posenet(input_shape=(224, 224, 3), base_model_name="mobilenet"):
         base_model = MobileNet(input_shape=(224, 224, 3), include_top=False)
         # 14 * 14 * keypoints
         target_layer = "conv_pw_11_relu"
-        new_model = Model(inputs=base_model.input,
-                          outputs=base_model.get_layer(name=target_layer).output)
+        # new_model = Model(inputs=base_model.input,
+        #                   outputs=base_model.get_layer(name=target_layer).output)
+        out = base_model.get_layer(name=target_layer).output
     else:
         raise ValueError()
 
-    _kp_maps = Conv2D(len(kp2index), kernel_size=(1, 1), activation="sigmoid", name="heatmap")(new_model.output)
-    _short_offsets = Conv2D(2 * len(kp2index), kernel_size=(1, 1), name="offset")(new_model.output)
+    _kp_maps = Conv2D(len(kp2index), kernel_size=(1, 1), activation="sigmoid", name="heatmap")(out)
+    _short_offsets = Conv2D(2 * len(kp2index), kernel_size=(1, 1), name="offset")(out)
 
-    return Model(Input(input_shape), [_kp_maps, _short_offsets])
+    return Model(inputs=base_model.input, outputs=[_kp_maps, _short_offsets])
