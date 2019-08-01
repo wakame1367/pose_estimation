@@ -1,4 +1,4 @@
-import tensorflow.python.keras.backend as kb
+from tensorflow.python.keras import backend as kb
 
 
 def offset_loss(y_true, y_pred):
