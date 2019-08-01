@@ -1,5 +1,8 @@
 import argparse
 
+from tensorflow.python.keras.optimizers import Adam
+
+from losses import heatmap_loss, offset_loss
 from models import posenet
 
 
@@ -16,6 +19,7 @@ def main():
     args = get_arguments()
     input_shape = args.input_shape
     model = posenet(input_shape=input_shape)
+    model.compile(optimizer=Adam(), loss=[heatmap_loss, offset_loss])
 
 
 if __name__ == '__main__':
