@@ -18,7 +18,7 @@ def posenet(input_shape=(224, 224, 3), base_model_name="mobilenet"):
         raise ValueError("{} only.".format(base_model_names[0]))
 
     if base_model_name == "mobilenet":
-        base_model = MobileNet(input_shape=(224, 224, 3), include_top=False)
+        base_model = MobileNet(input_shape=input_shape, include_top=False)
         # 14 * 14 * keypoints
         target_layer = "conv_pw_11_relu"
         # new_model = Model(inputs=base_model.input,
